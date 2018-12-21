@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/nimblehq/webauthn-growth-demo/handlers"
 	log "github.com/sirupsen/logrus"
-	"webauthn-growth-demo/handlers"
 )
 
 func main() {
@@ -24,12 +24,12 @@ func newRouter() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/", handler).Methods("GET")
 
-	staticFileDirectory := http.Dir("/assets/")
+	staticFileDirectory := http.Dir("./assets/")
 	staticFileHandler := http.StripPrefix("/users/", http.FileServer(staticFileDirectory))
 	r.PathPrefix("/users/").Handler(staticFileHandler).Methods("GET")
 
-	r.HandleFunc("/users", GetUsersHandler).Methods("GET")
-	r.HandleFunc("/users", CreateUsersHandler).Methods("POST")
+	r.HandleFunc("/users", handlers.GetUsersHandler).Methods("GET")
+	r.HandleFunc("/users", handlers.CreateUsersHandler).Methods("POST")
 	return r
 }
 
