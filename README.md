@@ -7,7 +7,7 @@
 `git clone git@github.com:nimblehq/webauthn-growth-demo.git`
 
 - Make sure you have set your $GOPATH, dep properly.
-- Run: `$ cd app && go get . && dep ensure && go run .`
+- Run: `$ go get . && dep ensure && go run .`
 
 ### With Docker:
 - Run: `$ docker build -t webauthn-demo . && docker run -d -p 8080:8080 -it webauthn-demo -p :8080`
