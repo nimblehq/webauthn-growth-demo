@@ -17,7 +17,7 @@ import (
 	res "github.com/nimblehq/webauthn-growth-demo/response"
 )
 
-var store = sessions.NewCookieStore([]byte("duo-rox"))
+var store = sessions.NewCookieStore([]byte("nimble-hq"))
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "login.html", nil)
