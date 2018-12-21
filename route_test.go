@@ -1,13 +1,12 @@
 package main
 
 import (
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
-func TestHandler(t *testing.T) {
+func TestLoginHandler(t *testing.T) {
 	req, err := http.NewRequest("GET", "", nil)
 
 	if err != nil {
@@ -15,49 +14,18 @@ func TestHandler(t *testing.T) {
 	}
 
 	recorder := httptest.NewRecorder()
-	hf := http.HandlerFunc(handler)
+	hf := http.HandlerFunc(Login)
 
 	hf.ServeHTTP(recorder, req)
 
 	if status := recorder.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
+		t.Errorf("LoginHandler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
 	}
 
-	expected := `Hello World!`
 	actual := recorder.Body.String()
-	if actual != expected {
-		t.Errorf("handler returned unexpected body: got %v want %v", actual, expected)
-	}
-}
-
-func TestRouterPositive(t *testing.T) {
-	r := newRouter()
-
-	mockServer := httptest.NewServer(r)
-
-	resp, err := http.Get(mockServer.URL + "/")
-
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		t.Errorf("Status should be OK 200, got %d", resp.StatusCode)
-	}
-
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	actual := string(b)
-	expect := "Hello World!"
-
-	if actual != expect {
-		t.Errorf("Response content is not match, should be %s, got %s", expect, actual)
+	if len(actual) == 0 {
+		t.Errorf("LoginHandler returned unexpected body: got %v", actual)
 	}
 }
 
@@ -84,7 +52,7 @@ func TestStaticFileServer(t *testing.T) {
 	mockServer := httptest.NewServer(r)
 
 	// We want to hit the `GET /assets/` route to get the index.html file response
-	resp, err := http.Get(mockServer.URL + "/assets/")
+	resp, err := http.Get(mockServer.URL + "/")
 	if err != nil {
 		t.Fatal(err)
 	}
