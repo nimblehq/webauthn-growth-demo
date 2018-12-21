@@ -434,13 +434,6 @@ func DeleteCredential(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// CheckCredentialCounter - We may want to check for replay attacks but
-// we definitely want to update the internal counter
-// Note: this currently doesn't do that, lol
-func CheckCredentialCounter(cred *models.Credential) error {
-	return models.UpdateCredential(cred)
-}
-
 // renderTemplate renders the template to the ResponseWriter
 func renderTemplate(w http.ResponseWriter, f string, data interface{}) {
 	t, err := template.ParseFiles(fmt.Sprintf("./templates/%s", f))
