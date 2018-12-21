@@ -7,15 +7,16 @@ import (
 )
 
 type User struct {
-	Species     string `json:"species"`
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
 	Description string `json:"description"`
 }
 
-var birds []User
+var users []User
 
 func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
-	//Convert the "birds" variable to json
-	birdListBytes, err := json.Marshal(birds)
+	//Convert the "users" variable to json
+	usersListBytes, err := json.Marshal(users)
 
 	// If there is an error, print it to the console, and return a server
 	// error response to the user
@@ -24,8 +25,8 @@ func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	// If all goes well, write the JSON list of birds to the response
-	w.Write(birdListBytes)
+	// If all goes well, write the JSON list of users to the response
+	w.Write(usersListBytes)
 }
 
 func CreateUsersHandler(w http.ResponseWriter, r *http.Request) {
@@ -45,11 +46,12 @@ func CreateUsersHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get the information about the user from the form info
-	user.Species = r.Form.Get("species")
+	user.FirstName = r.Form.Get("first_name")
+	user.LastName = r.Form.Get("last_name")
 	user.Description = r.Form.Get("description")
 
-	// Append our existing list of birds with a new entry
-	birds = append(birds, user)
+	// Append our existing list of users with a new entry
+	users = append(users, user)
 
 	//Finally, we redirect the user to the original HTMl page
 	// (located at `/assets/`), using the http libraries `Redirect` method
