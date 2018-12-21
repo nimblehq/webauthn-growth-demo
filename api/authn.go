@@ -302,3 +302,10 @@ func VerifyAssertionData(
 
 	return ecdsa.Verify(&pubKey, h.Sum(nil), ecsdaSig.R, ecsdaSig.S), credential, nil
 }
+
+// CheckCredentialCounter - We may want to check for replay attacks but
+// we definitely want to update the internal counter
+// Note: this currently doesn't do that, LOL
+func CheckCredentialCounter(cred *models.Credential) error {
+	return models.UpdateCredential(cred)
+}
